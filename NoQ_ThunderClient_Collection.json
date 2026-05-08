@@ -1,0 +1,670 @@
+{
+  "_type": "ThunderCollection",
+  "version": "1.1",
+  "name": "NoQ Clinic API",
+  "variables": [
+    { "name": "baseUrl", "value": "http://localhost:5000/api", "isSecret": false },
+    { "name": "clinicId", "value": "", "isSecret": false },
+    { "name": "accessToken", "value": "", "isSecret": false },
+    { "name": "refreshToken", "value": "", "isSecret": false },
+    { "name": "doctorId", "value": "", "isSecret": false },
+    { "name": "patientId", "value": "", "isSecret": false },
+    { "name": "tokenId", "value": "", "isSecret": false },
+    { "name": "appointmentId", "value": "", "isSecret": false },
+    { "name": "consultationId", "value": "", "isSecret": false }
+  ],
+  "folders": [
+    { "_id": "f1", "name": "Auth",             "containerId": "", "sortNum": 10000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z" },
+    { "_id": "f2", "name": "Clinic",           "containerId": "", "sortNum": 20000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z" },
+    { "_id": "f3", "name": "Doctor",           "containerId": "", "sortNum": 30000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z" },
+    { "_id": "f4", "name": "Patient",          "containerId": "", "sortNum": 40000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z" },
+    { "_id": "f5", "name": "Token / Queue",    "containerId": "", "sortNum": 50000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z" },
+    { "_id": "f6", "name": "Appointment",      "containerId": "", "sortNum": 60000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z" },
+    { "_id": "f7", "name": "Consultation / Rx","containerId": "", "sortNum": 70000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z" },
+    { "_id": "f8", "name": "Dashboard",        "containerId": "", "sortNum": 80000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z" }
+  ],
+  "requests": [
+
+    {
+      "_id": "r01", "colId": "noq-col", "containerId": "f1",
+      "name": "Login", "method": "POST", "url": "{{baseUrl}}/auth/login",
+      "sortNum": 10000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"identifier\": \"admin@cityhealth.com\",\n  \"password\": \"Admin@123\"\n}"
+      },
+      "auth": { "type": "none" }
+    },
+
+    {
+      "_id": "r02", "colId": "noq-col", "containerId": "f1",
+      "name": "Register User", "method": "POST", "url": "{{baseUrl}}/auth/register",
+      "sortNum": 20000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"name\": \"Dr. Priya\",\n  \"email\": \"priya@clinic.com\",\n  \"mobile\": \"9876543211\",\n  \"password\": \"secret123\",\n  \"role\": \"doctor\"\n}"
+      },
+      "auth": { "type": "none" }
+    },
+
+    {
+      "_id": "r03", "colId": "noq-col", "containerId": "f1",
+      "name": "Refresh Token", "method": "POST", "url": "{{baseUrl}}/auth/refresh",
+      "sortNum": 30000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+      },
+      "auth": { "type": "none" }
+    },
+
+    {
+      "_id": "r04", "colId": "noq-col", "containerId": "f1",
+      "name": "Get Me", "method": "GET", "url": "{{baseUrl}}/auth/me",
+      "sortNum": 40000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": { "type": "none" },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r05", "colId": "noq-col", "containerId": "f1",
+      "name": "Change Password", "method": "PUT", "url": "{{baseUrl}}/auth/change-password",
+      "sortNum": 50000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"currentPassword\": \"Admin@123\",\n  \"newPassword\": \"NewPass@456\"\n}"
+      },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r06", "colId": "noq-col", "containerId": "f1",
+      "name": "Logout", "method": "POST", "url": "{{baseUrl}}/auth/logout",
+      "sortNum": 60000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": { "type": "none" },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r07", "colId": "noq-col", "containerId": "f2",
+      "name": "Create Clinic", "method": "POST", "url": "{{baseUrl}}/clinic",
+      "sortNum": 10000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"name\": \"City Health Clinic\",\n  \"subdomain\": \"cityhealth\",\n  \"phone\": \"04422334455\",\n  \"email\": \"info@cityhealth.com\",\n  \"address\": {\n    \"street\": \"12 Anna Salai\",\n    \"city\": \"Chennai\",\n    \"state\": \"Tamil Nadu\",\n    \"pincode\": \"600002\"\n  },\n  \"settings\": {\n    \"tokenResetTime\": \"00:00\",\n    \"workingHours\": {\n      \"start\": \"09:00\",\n      \"end\": \"18:00\"\n    },\n    \"appointmentDuration\": 15\n  },\n  \"adminName\": \"Admin User\",\n  \"adminEmail\": \"admin@cityhealth.com\",\n  \"adminMobile\": \"9000000001\",\n  \"adminPassword\": \"Admin@123\"\n}"
+      },
+      "auth": { "type": "none" }
+    },
+
+    {
+      "_id": "r08", "colId": "noq-col", "containerId": "f2",
+      "name": "Get Current Clinic", "method": "GET", "url": "{{baseUrl}}/clinic/current",
+      "sortNum": 20000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": { "type": "none" },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r09", "colId": "noq-col", "containerId": "f2",
+      "name": "Update Clinic", "method": "PUT", "url": "{{baseUrl}}/clinic/current",
+      "sortNum": 30000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"name\": \"City Health Clinic Updated\",\n  \"settings\": {\n    \"appointmentDuration\": 20\n  }\n}"
+      },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r10", "colId": "noq-col", "containerId": "f3",
+      "name": "Add Doctor", "method": "POST", "url": "{{baseUrl}}/doctor",
+      "sortNum": 10000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"name\": \"Dr. Arun Kumar\",\n  \"mobile\": \"9876543210\",\n  \"email\": \"arun@clinic.com\",\n  \"specialization\": \"General Physician\",\n  \"qualification\": \"MBBS, MD\",\n  \"registrationNumber\": \"TN12345\",\n  \"experience\": 8,\n  \"consultationFee\": 300,\n  \"availability\": [\n    {\n      \"day\": \"monday\",\n      \"isAvailable\": true,\n      \"slots\": [\n        { \"start\": \"09:00\", \"end\": \"13:00\", \"maxTokens\": 20 },\n        { \"start\": \"17:00\", \"end\": \"20:00\", \"maxTokens\": 15 }\n      ]\n    },\n    {\n      \"day\": \"tuesday\",\n      \"isAvailable\": true,\n      \"slots\": [{ \"start\": \"09:00\", \"end\": \"13:00\", \"maxTokens\": 20 }]\n    },\n    {\n      \"day\": \"wednesday\",\n      \"isAvailable\": true,\n      \"slots\": [{ \"start\": \"09:00\", \"end\": \"13:00\", \"maxTokens\": 20 }]\n    },\n    {\n      \"day\": \"thursday\",\n      \"isAvailable\": true,\n      \"slots\": [{ \"start\": \"09:00\", \"end\": \"13:00\", \"maxTokens\": 20 }]\n    },\n    {\n      \"day\": \"friday\",\n      \"isAvailable\": true,\n      \"slots\": [{ \"start\": \"09:00\", \"end\": \"13:00\", \"maxTokens\": 20 }]\n    },\n    {\n      \"day\": \"saturday\",\n      \"isAvailable\": true,\n      \"slots\": [{ \"start\": \"09:00\", \"end\": \"12:00\", \"maxTokens\": 10 }]\n    },\n    {\n      \"day\": \"sunday\",\n      \"isAvailable\": false,\n      \"slots\": []\n    }\n  ]\n}"
+      },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r11", "colId": "noq-col", "containerId": "f3",
+      "name": "List Doctors", "method": "GET", "url": "{{baseUrl}}/doctor",
+      "sortNum": 20000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [
+        { "name": "page",  "value": "1",  "isPath": false },
+        { "name": "limit", "value": "20", "isPath": false }
+      ],
+      "body": { "type": "none" },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r12", "colId": "noq-col", "containerId": "f3",
+      "name": "Get Doctor by ID", "method": "GET", "url": "{{baseUrl}}/doctor/{{doctorId}}",
+      "sortNum": 30000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": { "type": "none" },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r13", "colId": "noq-col", "containerId": "f3",
+      "name": "Update Doctor", "method": "PUT", "url": "{{baseUrl}}/doctor/{{doctorId}}",
+      "sortNum": 40000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"consultationFee\": 400,\n  \"experience\": 9\n}"
+      },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r14", "colId": "noq-col", "containerId": "f3",
+      "name": "Update Availability", "method": "PUT", "url": "{{baseUrl}}/doctor/{{doctorId}}/availability",
+      "sortNum": 50000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"availability\": [\n    {\n      \"day\": \"monday\",\n      \"isAvailable\": true,\n      \"slots\": [{ \"start\": \"09:00\", \"end\": \"13:00\", \"maxTokens\": 20 }]\n    },\n    {\n      \"day\": \"saturday\",\n      \"isAvailable\": false,\n      \"slots\": []\n    }\n  ]\n}"
+      },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r15", "colId": "noq-col", "containerId": "f3",
+      "name": "Deactivate Doctor", "method": "DELETE", "url": "{{baseUrl}}/doctor/{{doctorId}}",
+      "sortNum": 60000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": { "type": "none" },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r16", "colId": "noq-col", "containerId": "f4",
+      "name": "Register Patient", "method": "POST", "url": "{{baseUrl}}/patient",
+      "sortNum": 10000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"name\": \"Ravi Kumar\",\n  \"mobile\": \"9123456789\",\n  \"email\": \"ravi@example.com\",\n  \"age\": 35,\n  \"gender\": \"male\",\n  \"dob\": \"1989-04-15\",\n  \"bloodGroup\": \"O+\",\n  \"address\": {\n    \"street\": \"5 MG Road\",\n    \"city\": \"Chennai\",\n    \"state\": \"Tamil Nadu\",\n    \"pincode\": \"600001\"\n  },\n  \"allergies\": [\"Penicillin\", \"Aspirin\"],\n  \"chronicConditions\": [\"Diabetes Type 2\"],\n  \"emergencyContact\": {\n    \"name\": \"Priya Kumar\",\n    \"mobile\": \"9000000001\",\n    \"relation\": \"Wife\"\n  }\n}"
+      },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r17", "colId": "noq-col", "containerId": "f4",
+      "name": "Search Patients", "method": "GET", "url": "{{baseUrl}}/patient",
+      "sortNum": 20000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [
+        { "name": "q",     "value": "ravi", "isPath": false },
+        { "name": "page",  "value": "1",    "isPath": false },
+        { "name": "limit", "value": "20",   "isPath": false }
+      ],
+      "body": { "type": "none" },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r18", "colId": "noq-col", "containerId": "f4",
+      "name": "Search by Mobile", "method": "GET", "url": "{{baseUrl}}/patient/search/9123456789",
+      "sortNum": 30000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": { "type": "none" },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r19", "colId": "noq-col", "containerId": "f4",
+      "name": "Get Patient by ID", "method": "GET", "url": "{{baseUrl}}/patient/{{patientId}}",
+      "sortNum": 40000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": { "type": "none" },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r20", "colId": "noq-col", "containerId": "f4",
+      "name": "Update Patient", "method": "PUT", "url": "{{baseUrl}}/patient/{{patientId}}",
+      "sortNum": 50000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"age\": 36,\n  \"allergies\": [\"Penicillin\"]\n}"
+      },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r21", "colId": "noq-col", "containerId": "f4",
+      "name": "Patient Visit History", "method": "GET", "url": "{{baseUrl}}/patient/{{patientId}}/history",
+      "sortNum": 60000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": { "type": "none" },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r22", "colId": "noq-col", "containerId": "f5",
+      "name": "Generate Token", "method": "POST", "url": "{{baseUrl}}/token/generate",
+      "sortNum": 10000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"doctorId\": \"{{doctorId}}\",\n  \"patientId\": \"{{patientId}}\",\n  \"priority\": \"normal\",\n  \"date\": \"2026-05-08\",\n  \"notes\": \"\"\n}"
+      },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r23", "colId": "noq-col", "containerId": "f5",
+      "name": "Get Live Queue", "method": "GET", "url": "{{baseUrl}}/token/queue/{{doctorId}}",
+      "sortNum": 20000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [
+        { "name": "date", "value": "2026-05-08", "isPath": false }
+      ],
+      "body": { "type": "none" },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r24", "colId": "noq-col", "containerId": "f5",
+      "name": "List Tokens (by date)", "method": "GET", "url": "{{baseUrl}}/token",
+      "sortNum": 30000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [
+        { "name": "date",  "value": "2026-05-08", "isPath": false },
+        { "name": "page",  "value": "1",          "isPath": false },
+        { "name": "limit", "value": "50",          "isPath": false }
+      ],
+      "body": { "type": "none" },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r25", "colId": "noq-col", "containerId": "f5",
+      "name": "Get Token by ID", "method": "GET", "url": "{{baseUrl}}/token/{{tokenId}}",
+      "sortNum": 40000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": { "type": "none" },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r26", "colId": "noq-col", "containerId": "f5",
+      "name": "Call Patient (→ in_progress)", "method": "PUT", "url": "{{baseUrl}}/token/status/{{tokenId}}",
+      "sortNum": 50000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"status\": \"in_progress\"\n}"
+      },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r27", "colId": "noq-col", "containerId": "f5",
+      "name": "Complete Token", "method": "PUT", "url": "{{baseUrl}}/token/status/{{tokenId}}",
+      "sortNum": 60000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"status\": \"completed\"\n}"
+      },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r28", "colId": "noq-col", "containerId": "f5",
+      "name": "Cancel Token", "method": "PUT", "url": "{{baseUrl}}/token/status/{{tokenId}}",
+      "sortNum": 70000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"status\": \"cancelled\",\n  \"cancelReason\": \"Patient left the queue\"\n}"
+      },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r29", "colId": "noq-col", "containerId": "f6",
+      "name": "Book Appointment", "method": "POST", "url": "{{baseUrl}}/appointment",
+      "sortNum": 10000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"doctorId\": \"{{doctorId}}\",\n  \"patientId\": \"{{patientId}}\",\n  \"date\": \"2026-05-09\",\n  \"time\": \"10:30\",\n  \"type\": \"new\",\n  \"reason\": \"Fever and cold for 3 days\",\n  \"notes\": \"Morning slot preferred\"\n}"
+      },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r30", "colId": "noq-col", "containerId": "f6",
+      "name": "List Appointments", "method": "GET", "url": "{{baseUrl}}/appointment",
+      "sortNum": 20000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [
+        { "name": "date",  "value": "2026-05-08", "isPath": false },
+        { "name": "page",  "value": "1",          "isPath": false },
+        { "name": "limit", "value": "20",          "isPath": false }
+      ],
+      "body": { "type": "none" },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r31", "colId": "noq-col", "containerId": "f6",
+      "name": "Get Appointment by ID", "method": "GET", "url": "{{baseUrl}}/appointment/{{appointmentId}}",
+      "sortNum": 30000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": { "type": "none" },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r32", "colId": "noq-col", "containerId": "f6",
+      "name": "Confirm Appointment", "method": "PUT", "url": "{{baseUrl}}/appointment/{{appointmentId}}",
+      "sortNum": 40000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"status\": \"confirmed\"\n}"
+      },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r33", "colId": "noq-col", "containerId": "f6",
+      "name": "Cancel Appointment", "method": "PUT", "url": "{{baseUrl}}/appointment/{{appointmentId}}",
+      "sortNum": 50000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"status\": \"cancelled\",\n  \"cancelReason\": \"Doctor unavailable\"\n}"
+      },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r34", "colId": "noq-col", "containerId": "f6",
+      "name": "Convert Appointment to Token", "method": "POST", "url": "{{baseUrl}}/appointment/{{appointmentId}}/convert-to-token",
+      "sortNum": 60000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": { "type": "none" },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r35", "colId": "noq-col", "containerId": "f7",
+      "name": "Create Consultation", "method": "POST", "url": "{{baseUrl}}/consultation",
+      "sortNum": 10000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"tokenId\": \"{{tokenId}}\",\n  \"chiefComplaint\": \"Fever, headache for 2 days\",\n  \"symptoms\": [\"fever\", \"headache\", \"body ache\"],\n  \"diagnosis\": \"Viral fever\",\n  \"differentialDiagnosis\": [\"Dengue\", \"Malaria\"],\n  \"vitals\": {\n    \"bp\": \"120/80\",\n    \"pulse\": 88,\n    \"temperature\": 101.2,\n    \"weight\": 68,\n    \"height\": 170,\n    \"spo2\": 98,\n    \"rbs\": 110\n  },\n  \"medicines\": [\n    {\n      \"name\": \"Paracetamol 500mg\",\n      \"dosage\": \"500mg\",\n      \"frequency\": \"TDS\",\n      \"duration\": \"5 days\",\n      \"instructions\": \"After food\",\n      \"quantity\": 15\n    },\n    {\n      \"name\": \"Cetirizine 10mg\",\n      \"dosage\": \"10mg\",\n      \"frequency\": \"OD\",\n      \"duration\": \"3 days\",\n      \"instructions\": \"At night\",\n      \"quantity\": 3\n    }\n  ],\n  \"investigations\": [\"CBC\", \"Dengue NS1\"],\n  \"notes\": \"Plenty of fluids, rest\",\n  \"advice\": \"Avoid cold water. Return if fever persists beyond 3 days.\",\n  \"followUpDate\": \"2026-05-13\",\n  \"followUpNotes\": \"Review CBC report\"\n}"
+      },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r36", "colId": "noq-col", "containerId": "f7",
+      "name": "Get Consultation by Token", "method": "GET", "url": "{{baseUrl}}/consultation/token/{{tokenId}}",
+      "sortNum": 20000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": { "type": "none" },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r37", "colId": "noq-col", "containerId": "f7",
+      "name": "Patient Consultation History", "method": "GET", "url": "{{baseUrl}}/consultation/patient/{{patientId}}",
+      "sortNum": 30000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [
+        { "name": "page",  "value": "1",  "isPath": false },
+        { "name": "limit", "value": "10", "isPath": false }
+      ],
+      "body": { "type": "none" },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r38", "colId": "noq-col", "containerId": "f7",
+      "name": "Update Consultation", "method": "PUT", "url": "{{baseUrl}}/consultation/{{consultationId}}",
+      "sortNum": 40000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"diagnosis\": \"Dengue fever\",\n  \"medicines\": [\n    {\n      \"name\": \"Paracetamol 500mg\",\n      \"dosage\": \"500mg\",\n      \"frequency\": \"TDS\",\n      \"duration\": \"5 days\"\n    }\n  ]\n}"
+      },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r39", "colId": "noq-col", "containerId": "f7",
+      "name": "Sign Consultation (Complete)", "method": "PUT", "url": "{{baseUrl}}/consultation/{{consultationId}}/sign",
+      "sortNum": 50000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": { "type": "none" },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r40", "colId": "noq-col", "containerId": "f8",
+      "name": "Today's Summary", "method": "GET", "url": "{{baseUrl}}/dashboard/summary",
+      "sortNum": 10000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": { "type": "none" },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r41", "colId": "noq-col", "containerId": "f8",
+      "name": "Waiting Patients", "method": "GET", "url": "{{baseUrl}}/dashboard/waiting",
+      "sortNum": 20000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [
+        { "name": "doctorId", "value": "{{doctorId}}", "isPath": false }
+      ],
+      "body": { "type": "none" },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r42", "colId": "noq-col", "containerId": "f8",
+      "name": "Doctor Queue Stats", "method": "GET", "url": "{{baseUrl}}/dashboard/doctor-stats",
+      "sortNum": 30000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [],
+      "body": { "type": "none" },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    },
+
+    {
+      "_id": "r43", "colId": "noq-col", "containerId": "f8",
+      "name": "Recent Consultations", "method": "GET", "url": "{{baseUrl}}/dashboard/recent-consultations",
+      "sortNum": 40000, "created": "2026-05-08T00:00:00.000Z", "modified": "2026-05-08T00:00:00.000Z",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "x-clinic-id",  "value": "{{clinicId}}" }
+      ],
+      "params": [
+        { "name": "limit", "value": "10", "isPath": false }
+      ],
+      "body": { "type": "none" },
+      "auth": { "type": "bearer", "bearer": "{{accessToken}}" }
+    }
+
+  ]
+}
