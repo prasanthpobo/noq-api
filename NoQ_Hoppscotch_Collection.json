@@ -1,0 +1,1429 @@
+[
+  {
+    "v": 2,
+    "name": "NoQ Clinic API",
+    "folders": [
+      {
+        "v": 2,
+        "name": "🔐 Auth",
+        "folders": [],
+        "requests": [
+          {
+            "v": "1",
+            "name": "Login",
+            "method": "POST",
+            "endpoint": "<<baseUrl>>/auth/login",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": "application/json",
+              "body": "{\n  \"identifier\": \"admin@cityhealth.com\",\n  \"password\": \"Admin@123\"\n}"
+            },
+            "auth": {
+              "authType": "none",
+              "authActive": false
+            }
+          },
+          {
+            "v": "1",
+            "name": "Register User",
+            "method": "POST",
+            "endpoint": "<<baseUrl>>/auth/register",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": "application/json",
+              "body": "{\n  \"name\": \"Dr. Priya\",\n  \"email\": \"priya@clinic.com\",\n  \"mobile\": \"9876543211\",\n  \"password\": \"secret123\",\n  \"role\": \"doctor\"\n}"
+            },
+            "auth": {
+              "authType": "none",
+              "authActive": false
+            }
+          },
+          {
+            "v": "1",
+            "name": "Refresh Token",
+            "method": "POST",
+            "endpoint": "<<baseUrl>>/auth/refresh",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": "application/json",
+              "body": "{\n  \"refreshToken\": \"<<refreshToken>>\"\n}"
+            },
+            "auth": {
+              "authType": "none",
+              "authActive": false
+            }
+          },
+          {
+            "v": "1",
+            "name": "Get Me",
+            "method": "GET",
+            "endpoint": "<<baseUrl>>/auth/me",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "Change Password",
+            "method": "PUT",
+            "endpoint": "<<baseUrl>>/auth/change-password",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": "application/json",
+              "body": "{\n  \"currentPassword\": \"Admin@123\",\n  \"newPassword\": \"NewPass@456\"\n}"
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "Logout",
+            "method": "POST",
+            "endpoint": "<<baseUrl>>/auth/logout",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "name": "🏥 Clinic",
+        "folders": [],
+        "requests": [
+          {
+            "v": "1",
+            "name": "Create Clinic",
+            "method": "POST",
+            "endpoint": "<<baseUrl>>/clinic",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": "application/json",
+              "body": "{\n  \"name\": \"City Health Clinic\",\n  \"subdomain\": \"cityhealth\",\n  \"phone\": \"04422334455\",\n  \"email\": \"info@cityhealth.com\",\n  \"address\": {\n    \"street\": \"12 Anna Salai\",\n    \"city\": \"Chennai\",\n    \"state\": \"Tamil Nadu\",\n    \"pincode\": \"600002\"\n  },\n  \"settings\": {\n    \"tokenResetTime\": \"00:00\",\n    \"workingHours\": {\n      \"start\": \"09:00\",\n      \"end\": \"18:00\"\n    },\n    \"appointmentDuration\": 15\n  },\n  \"adminName\": \"Admin User\",\n  \"adminEmail\": \"admin@cityhealth.com\",\n  \"adminMobile\": \"9000000001\",\n  \"adminPassword\": \"Admin@123\"\n}"
+            },
+            "auth": {
+              "authType": "none",
+              "authActive": false
+            }
+          },
+          {
+            "v": "1",
+            "name": "Get Current Clinic",
+            "method": "GET",
+            "endpoint": "<<baseUrl>>/clinic/current",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "Update Clinic",
+            "method": "PUT",
+            "endpoint": "<<baseUrl>>/clinic/current",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": "application/json",
+              "body": "{\n  \"name\": \"City Health Clinic Updated\",\n  \"settings\": {\n    \"appointmentDuration\": 20\n  }\n}"
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "name": "👨‍⚕️ Doctor",
+        "folders": [],
+        "requests": [
+          {
+            "v": "1",
+            "name": "Add Doctor",
+            "method": "POST",
+            "endpoint": "<<baseUrl>>/doctor",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": "application/json",
+              "body": "{\n  \"name\": \"Dr. Arun Kumar\",\n  \"mobile\": \"9876543210\",\n  \"email\": \"arun@clinic.com\",\n  \"specialization\": \"General Physician\",\n  \"qualification\": \"MBBS, MD\",\n  \"registrationNumber\": \"TN12345\",\n  \"experience\": 8,\n  \"consultationFee\": 300,\n  \"availability\": [\n    {\n      \"day\": \"monday\",\n      \"isAvailable\": true,\n      \"slots\": [\n        {\n          \"start\": \"09:00\",\n          \"end\": \"13:00\",\n          \"maxTokens\": 20\n        },\n        {\n          \"start\": \"17:00\",\n          \"end\": \"20:00\",\n          \"maxTokens\": 15\n        }\n      ]\n    },\n    {\n      \"day\": \"tuesday\",\n      \"isAvailable\": true,\n      \"slots\": [\n        {\n          \"start\": \"09:00\",\n          \"end\": \"13:00\",\n          \"maxTokens\": 20\n        }\n      ]\n    },\n    {\n      \"day\": \"wednesday\",\n      \"isAvailable\": true,\n      \"slots\": [\n        {\n          \"start\": \"09:00\",\n          \"end\": \"13:00\",\n          \"maxTokens\": 20\n        }\n      ]\n    },\n    {\n      \"day\": \"thursday\",\n      \"isAvailable\": true,\n      \"slots\": [\n        {\n          \"start\": \"09:00\",\n          \"end\": \"13:00\",\n          \"maxTokens\": 20\n        }\n      ]\n    },\n    {\n      \"day\": \"friday\",\n      \"isAvailable\": true,\n      \"slots\": [\n        {\n          \"start\": \"09:00\",\n          \"end\": \"13:00\",\n          \"maxTokens\": 20\n        }\n      ]\n    },\n    {\n      \"day\": \"saturday\",\n      \"isAvailable\": true,\n      \"slots\": [\n        {\n          \"start\": \"09:00\",\n          \"end\": \"12:00\",\n          \"maxTokens\": 10\n        }\n      ]\n    },\n    {\n      \"day\": \"sunday\",\n      \"isAvailable\": false,\n      \"slots\": []\n    }\n  ]\n}"
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "List Doctors",
+            "method": "GET",
+            "endpoint": "<<baseUrl>>/doctor",
+            "params": [
+              {
+                "key": "page",
+                "value": "1",
+                "active": true
+              },
+              {
+                "key": "limit",
+                "value": "20",
+                "active": true
+              }
+            ],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "Get Doctor by ID",
+            "method": "GET",
+            "endpoint": "<<baseUrl>>/doctor/<<doctorId>>",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "Update Doctor",
+            "method": "PUT",
+            "endpoint": "<<baseUrl>>/doctor/<<doctorId>>",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": "application/json",
+              "body": "{\n  \"consultationFee\": 400,\n  \"experience\": 9\n}"
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "Update Availability",
+            "method": "PUT",
+            "endpoint": "<<baseUrl>>/doctor/<<doctorId>>/availability",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": "application/json",
+              "body": "{\n  \"availability\": [\n    {\n      \"day\": \"monday\",\n      \"isAvailable\": true,\n      \"slots\": [\n        {\n          \"start\": \"09:00\",\n          \"end\": \"13:00\",\n          \"maxTokens\": 20\n        }\n      ]\n    },\n    {\n      \"day\": \"saturday\",\n      \"isAvailable\": false,\n      \"slots\": []\n    }\n  ]\n}"
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "Deactivate Doctor",
+            "method": "DELETE",
+            "endpoint": "<<baseUrl>>/doctor/<<doctorId>>",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "name": "🧑‍🤝‍🧑 Patient",
+        "folders": [],
+        "requests": [
+          {
+            "v": "1",
+            "name": "Register Patient",
+            "method": "POST",
+            "endpoint": "<<baseUrl>>/patient",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": "application/json",
+              "body": "{\n  \"name\": \"Ravi Kumar\",\n  \"mobile\": \"9123456789\",\n  \"email\": \"ravi@example.com\",\n  \"age\": 35,\n  \"gender\": \"male\",\n  \"dob\": \"1989-04-15\",\n  \"bloodGroup\": \"O+\",\n  \"address\": {\n    \"street\": \"5 MG Road\",\n    \"city\": \"Chennai\",\n    \"state\": \"Tamil Nadu\",\n    \"pincode\": \"600001\"\n  },\n  \"allergies\": [\n    \"Penicillin\",\n    \"Aspirin\"\n  ],\n  \"chronicConditions\": [\n    \"Diabetes Type 2\"\n  ],\n  \"emergencyContact\": {\n    \"name\": \"Priya Kumar\",\n    \"mobile\": \"9000000001\",\n    \"relation\": \"Wife\"\n  }\n}"
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "Search Patients",
+            "method": "GET",
+            "endpoint": "<<baseUrl>>/patient",
+            "params": [
+              {
+                "key": "q",
+                "value": "ravi",
+                "active": true
+              },
+              {
+                "key": "page",
+                "value": "1",
+                "active": true
+              },
+              {
+                "key": "limit",
+                "value": "20",
+                "active": true
+              }
+            ],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "Search by Mobile",
+            "method": "GET",
+            "endpoint": "<<baseUrl>>/patient/search/9123456789",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "Get Patient by ID",
+            "method": "GET",
+            "endpoint": "<<baseUrl>>/patient/<<patientId>>",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "Update Patient",
+            "method": "PUT",
+            "endpoint": "<<baseUrl>>/patient/<<patientId>>",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": "application/json",
+              "body": "{\n  \"age\": 36,\n  \"allergies\": [\n    \"Penicillin\"\n  ]\n}"
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "Patient Visit History",
+            "method": "GET",
+            "endpoint": "<<baseUrl>>/patient/<<patientId>>/history",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "name": "🎫 Token / Queue",
+        "folders": [],
+        "requests": [
+          {
+            "v": "1",
+            "name": "Generate Token",
+            "method": "POST",
+            "endpoint": "<<baseUrl>>/token/generate",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": "application/json",
+              "body": "{\n  \"doctorId\": \"<<doctorId>>\",\n  \"patientId\": \"<<patientId>>\",\n  \"priority\": \"normal\",\n  \"date\": \"2026-05-08\",\n  \"notes\": \"\"\n}"
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "Get Live Queue",
+            "method": "GET",
+            "endpoint": "<<baseUrl>>/token/queue/<<doctorId>>",
+            "params": [
+              {
+                "key": "date",
+                "value": "2026-05-08",
+                "active": true
+              }
+            ],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "List Tokens (by date)",
+            "method": "GET",
+            "endpoint": "<<baseUrl>>/token",
+            "params": [
+              {
+                "key": "date",
+                "value": "2026-05-08",
+                "active": true
+              },
+              {
+                "key": "page",
+                "value": "1",
+                "active": true
+              },
+              {
+                "key": "limit",
+                "value": "50",
+                "active": true
+              }
+            ],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "Get Token by ID",
+            "method": "GET",
+            "endpoint": "<<baseUrl>>/token/<<tokenId>>",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "Call Patient (→ in_progress)",
+            "method": "PUT",
+            "endpoint": "<<baseUrl>>/token/status/<<tokenId>>",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": "application/json",
+              "body": "{\n  \"status\": \"in_progress\"\n}"
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "Complete Token",
+            "method": "PUT",
+            "endpoint": "<<baseUrl>>/token/status/<<tokenId>>",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": "application/json",
+              "body": "{\n  \"status\": \"completed\"\n}"
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "Cancel Token",
+            "method": "PUT",
+            "endpoint": "<<baseUrl>>/token/status/<<tokenId>>",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": "application/json",
+              "body": "{\n  \"status\": \"cancelled\",\n  \"cancelReason\": \"Patient left the queue\"\n}"
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "name": "📅 Appointment",
+        "folders": [],
+        "requests": [
+          {
+            "v": "1",
+            "name": "Book Appointment",
+            "method": "POST",
+            "endpoint": "<<baseUrl>>/appointment",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": "application/json",
+              "body": "{\n  \"doctorId\": \"<<doctorId>>\",\n  \"patientId\": \"<<patientId>>\",\n  \"date\": \"2026-05-09\",\n  \"time\": \"10:30\",\n  \"type\": \"new\",\n  \"reason\": \"Fever and cold for 3 days\",\n  \"notes\": \"Morning slot preferred\"\n}"
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "List Appointments",
+            "method": "GET",
+            "endpoint": "<<baseUrl>>/appointment",
+            "params": [
+              {
+                "key": "date",
+                "value": "2026-05-08",
+                "active": true
+              },
+              {
+                "key": "page",
+                "value": "1",
+                "active": true
+              },
+              {
+                "key": "limit",
+                "value": "20",
+                "active": true
+              }
+            ],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "Get Appointment by ID",
+            "method": "GET",
+            "endpoint": "<<baseUrl>>/appointment/<<appointmentId>>",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "Confirm Appointment",
+            "method": "PUT",
+            "endpoint": "<<baseUrl>>/appointment/<<appointmentId>>",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": "application/json",
+              "body": "{\n  \"status\": \"confirmed\"\n}"
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "Cancel Appointment",
+            "method": "PUT",
+            "endpoint": "<<baseUrl>>/appointment/<<appointmentId>>",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": "application/json",
+              "body": "{\n  \"status\": \"cancelled\",\n  \"cancelReason\": \"Doctor unavailable\"\n}"
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "Convert Appointment → Token",
+            "method": "POST",
+            "endpoint": "<<baseUrl>>/appointment/<<appointmentId>>/convert-to-token",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "name": "📋 Consultation / Rx",
+        "folders": [],
+        "requests": [
+          {
+            "v": "1",
+            "name": "Create Consultation",
+            "method": "POST",
+            "endpoint": "<<baseUrl>>/consultation",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": "application/json",
+              "body": "{\n  \"tokenId\": \"<<tokenId>>\",\n  \"chiefComplaint\": \"Fever, headache for 2 days\",\n  \"symptoms\": [\n    \"fever\",\n    \"headache\",\n    \"body ache\"\n  ],\n  \"diagnosis\": \"Viral fever\",\n  \"differentialDiagnosis\": [\n    \"Dengue\",\n    \"Malaria\"\n  ],\n  \"vitals\": {\n    \"bp\": \"120/80\",\n    \"pulse\": 88,\n    \"temperature\": 101.2,\n    \"weight\": 68,\n    \"height\": 170,\n    \"spo2\": 98,\n    \"rbs\": 110\n  },\n  \"medicines\": [\n    {\n      \"name\": \"Paracetamol 500mg\",\n      \"dosage\": \"500mg\",\n      \"frequency\": \"TDS\",\n      \"duration\": \"5 days\",\n      \"instructions\": \"After food\",\n      \"quantity\": 15\n    },\n    {\n      \"name\": \"Cetirizine 10mg\",\n      \"dosage\": \"10mg\",\n      \"frequency\": \"OD\",\n      \"duration\": \"3 days\",\n      \"instructions\": \"At night\",\n      \"quantity\": 3\n    }\n  ],\n  \"investigations\": [\n    \"CBC\",\n    \"Dengue NS1\"\n  ],\n  \"notes\": \"Plenty of fluids, rest\",\n  \"advice\": \"Avoid cold water. Return if fever persists beyond 3 days.\",\n  \"followUpDate\": \"2026-05-13\",\n  \"followUpNotes\": \"Review CBC report\"\n}"
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "Get Consultation by Token",
+            "method": "GET",
+            "endpoint": "<<baseUrl>>/consultation/token/<<tokenId>>",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "Patient Consultation History",
+            "method": "GET",
+            "endpoint": "<<baseUrl>>/consultation/patient/<<patientId>>",
+            "params": [
+              {
+                "key": "page",
+                "value": "1",
+                "active": true
+              },
+              {
+                "key": "limit",
+                "value": "10",
+                "active": true
+              }
+            ],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "Update Consultation",
+            "method": "PUT",
+            "endpoint": "<<baseUrl>>/consultation/<<consultationId>>",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": "application/json",
+              "body": "{\n  \"diagnosis\": \"Dengue fever\",\n  \"medicines\": [\n    {\n      \"name\": \"Paracetamol 500mg\",\n      \"dosage\": \"500mg\",\n      \"frequency\": \"TDS\",\n      \"duration\": \"5 days\"\n    }\n  ]\n}"
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "Sign Consultation (Complete)",
+            "method": "PUT",
+            "endpoint": "<<baseUrl>>/consultation/<<consultationId>>/sign",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "name": "📊 Dashboard",
+        "folders": [],
+        "requests": [
+          {
+            "v": "1",
+            "name": "Today's Summary",
+            "method": "GET",
+            "endpoint": "<<baseUrl>>/dashboard/summary",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "Waiting Patients",
+            "method": "GET",
+            "endpoint": "<<baseUrl>>/dashboard/waiting",
+            "params": [
+              {
+                "key": "doctorId",
+                "value": "<<doctorId>>",
+                "active": false
+              }
+            ],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "Doctor Queue Stats",
+            "method": "GET",
+            "endpoint": "<<baseUrl>>/dashboard/doctor-stats",
+            "params": [],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          },
+          {
+            "v": "1",
+            "name": "Recent Consultations",
+            "method": "GET",
+            "endpoint": "<<baseUrl>>/dashboard/recent-consultations",
+            "params": [
+              {
+                "key": "limit",
+                "value": "10",
+                "active": true
+              }
+            ],
+            "headers": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "active": true
+              },
+              {
+                "key": "x-clinic-id",
+                "value": "<<clinicId>>",
+                "active": true
+              }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+              "contentType": null,
+              "body": null
+            },
+            "auth": {
+              "authType": "bearer",
+              "authActive": true,
+              "token": "<<accessToken>>"
+            }
+          }
+        ]
+      }
+    ],
+    "requests": []
+  }
+]
