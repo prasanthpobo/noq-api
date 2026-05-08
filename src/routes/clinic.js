@@ -4,7 +4,7 @@ const clinicController = require('../controllers/clinicController');
 const { authenticate } = require('../middleware/auth');
 const { authorize } = require('../middleware/roles');
 const { validate } = require('../middleware/validate');
-const { createClinicSchema } = require('../validators/clinicValidators');
+const { createClinicSchema, updateClinicSchema } = require('../validators/clinicValidators');
 
 // Public — create a new clinic (onboarding)
 router.post('/', validate(createClinicSchema), clinicController.createClinic);
@@ -14,6 +14,6 @@ router.get('/', clinicController.listClinics);
 
 // Authenticated clinic routes
 router.get('/current', authenticate, clinicController.getClinic);
-router.put('/current', authenticate, authorize('admin'), clinicController.updateClinic);
+router.put('/current', authenticate, authorize('admin'), validate(updateClinicSchema), clinicController.updateClinic);
 
 module.exports = router;

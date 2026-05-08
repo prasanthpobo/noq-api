@@ -1,7 +1,7 @@
 const authService = require('../services/authService');
 const User = require('../models/User');
 const Clinic = require('../models/Clinic');
-const { success, created, error } = require('../utils/response');
+const { success, created } = require('../utils/response');
 const { ConflictError, AuthenticationError } = require('../utils/errors');
 
 const login = async (req, res, next) => {

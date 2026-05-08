@@ -32,4 +32,28 @@ const createClinicSchema = Joi.object({
   adminPassword: Joi.string().min(6).optional(),
 });
 
-module.exports = { createClinicSchema };
+// All fields optional for partial updates; subdomain and admin fields are not updatable
+const updateClinicSchema = Joi.object({
+  name: Joi.string().min(2).max(100).optional(),
+  phone: Joi.string().optional().allow(''),
+  email: Joi.string().email().optional().allow(''),
+  logo: Joi.string().uri().optional().allow(''),
+  address: Joi.object({
+    street: Joi.string().optional().allow(''),
+    city: Joi.string().optional().allow(''),
+    state: Joi.string().optional().allow(''),
+    country: Joi.string().optional().allow(''),
+    pincode: Joi.string().optional().allow(''),
+  }).optional(),
+  settings: Joi.object({
+    tokenResetTime: Joi.string().pattern(/^\d{2}:\d{2}$/).optional(),
+    workingHours: Joi.object({
+      start: Joi.string().pattern(/^\d{2}:\d{2}$/).optional(),
+      end: Joi.string().pattern(/^\d{2}:\d{2}$/).optional(),
+    }).optional(),
+    appointmentDuration: Joi.number().integer().min(5).max(120).optional(),
+    currency: Joi.string().max(10).optional(),
+  }).optional(),
+});
+
+module.exports = { createClinicSchema, updateClinicSchema };

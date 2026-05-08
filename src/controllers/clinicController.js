@@ -2,7 +2,6 @@ const Clinic = require('../models/Clinic');
 const User = require('../models/User');
 const { success, created, paginated } = require('../utils/response');
 const { NotFoundError, ConflictError } = require('../utils/errors');
-const authService = require('../services/authService');
 
 const createClinic = async (req, res, next) => {
   try {
